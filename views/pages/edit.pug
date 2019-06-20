@@ -1,0 +1,26 @@
+include ../includes/mixin.pug
+
+html
+  include ../includes/head.pug
+  body
+    include ../includes/nav.pug
+    div.container
+      h1 Edit
+      each val in users
+        if val.name === name
+          div.form
+            form(action="/edituser" method="POST")
+              div
+                label(for="username") Username:
+                input(type="text", name="username", id="username" required value=val.username)
+              div
+                label(for="name") Name:
+                input(type="text", name="name", id="name" required value=val.name)
+              div
+                label(for="email") Email:
+                input(type="text", name="email", id="email" required value=val.email)
+              div
+                label(for='age') Age:
+                input(type='number', name='age', id='age' value=val.age)
+              div.submitBtn
+                input(type="submit")

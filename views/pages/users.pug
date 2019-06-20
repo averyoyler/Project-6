@@ -1,0 +1,28 @@
+html
+  include ../includes/head.pug
+  body
+    include ../includes/nav.pug
+    div.container
+      h1 Users
+      div.usersContainer
+        if users.length > 0
+          div.userContainer
+            div.user
+              div.username Username
+              div.name Name
+              div.email Email
+              div.age Age
+              span.edit
+          each user in users
+            div.user
+              div.username #{user.username}
+              div.name #{user.name}
+              div.email #{user.email}
+              div.age #{user.age}
+              span.edit
+                a(href='/edituser/'+user.name)
+                  i.far.fa-edit
+                a(href='/deleteuser/'+user.name)
+                  i.fas.fa-trash
+        else
+          div Sorry, there aren't any users registered.

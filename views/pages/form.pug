@@ -1,0 +1,22 @@
+include ../includes/mixin.pug
+
+html
+  include ../includes/head.pug
+  body
+    include ../includes/nav.pug
+    div.container
+      h1 Form
+      div.form
+        form(action="/create" method="POST")
+          div
+            +textInput('username', 'Username:')
+          div
+            +textInput('name', 'Name:')
+          div
+            +textInput('email', 'Email:')
+          div
+            label(for='age') Age:
+            input(type='number', name='age', id='age')
+          div.submitBtn
+            input(type="submit")
+    //- include includes/footer.pug
