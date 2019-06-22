@@ -2,3 +2,6 @@ nav
   a(href="/") Home
   a(href="/users") Users
   a(href="/form") Form
+  form.searchForm(action="/find" method="POST")
+    input.search(type="text" name="find" placeholder="Search for a username...")
+    input(type="submit" value="SEARCH")

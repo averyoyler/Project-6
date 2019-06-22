@@ -84,6 +84,7 @@ app.get('/edituser/:user', (req, res) => {
 
 
 
+// CREATE A NEW USER
 
 app.post('/create', (req, res) => {
   let newUser = new user();
@@ -101,6 +102,8 @@ app.post('/create', (req, res) => {
   });
 });
 
+// EDIT A USER
+
 app.post('/edituser', (req, res) => {
   let value = {'name': current};
   let editedUser = {$set: {'username': req.body.username, 'name': req.body.name, 'email': req.body.email, 'age': req.body.age}};
@@ -115,14 +118,29 @@ app.post('/edituser', (req, res) => {
   });
 });
 
+// DELETE A USER
+
 app.get('/deleteuser/:user', (req, res) => {
-  console.log(req.params.user);
   user.remove({'name': req.params.user}, function(err, result) {
     if(err) throw err;
     console.log(`Deleted User: ${req.params.user}`);
     res.redirect('/users');
   });
 });
+
+// FIND A USER
+app.post('/find', (req, res) => {
+  user.findOne({'username': req.body.find}, function(err, result) {
+    if(err) throw err;
+    console.log(req.body.find);
+    res.render('pages/foundUser', {
+      user: result,
+      username: req.body.find
+    })
+  });
+});
+
+// USER PAGE
 
 
 

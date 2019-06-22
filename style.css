@@ -164,3 +164,21 @@ h1 {
 a i {
   color: grey;
 }
+
+.searchForm {
+  display: flex;
+  margin: 0;
+}
+
+.search {
+  margin: 0 10px 0 25px;
+  background-color: maroon;
+  color: white;
+  padding: 3px;
+  outline: none;
+  width: 175px;
+}
+
+.search::placeholder {
+  color: lightgrey;
+}
