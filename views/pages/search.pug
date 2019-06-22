@@ -1,0 +1,16 @@
+include ../includes/mixin.pug
+
+html
+  include ../includes/head.pug
+  body
+    include ../includes/nav.pug
+    div.container
+      h1 Search User
+      div.form(style="height: 150px;")
+        form(action="/search" method="POST")
+          div
+            +textInput('firstname', 'First Name:')
+          div
+            +textInput('lastname', 'Last Name:')
+          div.submitBtn
+            input(type="submit")

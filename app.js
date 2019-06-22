@@ -3,8 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const port = process.env.PORT || 3000;
 const usersFile = require('./users.js');
-const User = usersFile.User;
-const users = usersFile.users;
+// const User = usersFile.User;
+// const users = usersFile.users;
 const fs = require('fs');
 
 let app = express();
@@ -14,7 +14,8 @@ mongoose.connect('mongodb://localhost/project6', {useNewUrlParser: true});
 const db = mongoose.connection;
 const userSchema = new mongoose.Schema({
   username: String,
-  name: String,
+  firstname: String,
+  lastname: String,
   email: String,
   age: Number 
 });
@@ -60,6 +61,7 @@ app.get('/form', (req, res) => {
 app.get('/users', (req, res) => {
   user.find({}, function(err, result) {
     if(err) throw err;
+    console.log('RESULT:' + result);
     res.render('pages/users', {
       users: result
     });
@@ -89,15 +91,17 @@ app.get('/edituser/:user', (req, res) => {
 app.post('/create', (req, res) => {
   let newUser = new user();
   newUser.username = req.body.username;
-  newUser.name = req.body.name;
+  newUser.firstname = req.body.firstname;
+  newUser.lastname = req.body.lastname;
   newUser.email = req.body.email;
   newUser.age = req.body.age;
+  console.log(newUser);
   newUser.save((err, data) => {
     if (err) {
         return console.error(err);
     }
     // console.log(`Saved User: ${data}`);
-    console.log(`Created User: ${req.body.name}`);
+    console.log(`Created User: ${req.body.firstname}`);
     res.redirect('/users')
   });
 });
@@ -121,7 +125,7 @@ app.post('/edituser', (req, res) => {
 // DELETE A USER
 
 app.get('/deleteuser/:user', (req, res) => {
-  user.remove({'name': req.params.user}, function(err, result) {
+  user.deleteOne({'name': req.params.user}, function(err, result) {
     if(err) throw err;
     console.log(`Deleted User: ${req.params.user}`);
     res.redirect('/users');
@@ -129,19 +133,42 @@ app.get('/deleteuser/:user', (req, res) => {
 });
 
 // FIND A USER
-app.post('/find', (req, res) => {
-  user.findOne({'username': req.body.find}, function(err, result) {
-    if(err) throw err;
-    console.log(req.body.find);
-    res.render('pages/foundUser', {
-      user: result,
-      username: req.body.find
-    })
-  });
+// app.post('/find', (req, res) => {
+//   user.findOne({'username': req.body.find}, function(err, result) {
+//     if(err) throw err;
+//     console.log(req.body.find);
+//     res.render('pages/foundUser', {
+//       user: result,
+//       username: req.body.find
+//     })
+//   });
+// });
+
+// SEARCH PAGE
+app.get('/search', (req, res) => {
+  res.render('pages/search');
 });
 
-// USER PAGE
-
+// SEARCH POST
+app.post('/search', (req, res) => {
+  let first = req.body.firstname;
+  let last = req.body.lastname;
+  if((first !== undefined) && (last !== undefined)) {
+    user.find({'firstname': first, 'lastname': last}, function(err, result) {
+      if(err) throw err;
+      console.log(`\n\n ${result} \n\n`);
+      res.render('pages/foundUser', {
+        users: result
+      });
+    });
+  }
+  else if(first !== undefined) {
+    user.find({'firstname': first});
+  } 
+  else if(last !== undefined) {
+    user.find({'lastname': last})
+  }
+});
 
 
 

@@ -4,24 +4,27 @@ html
     include ../includes/nav.pug
     div.container
       h1 Results
-      div.userContainer
-        if user != undefined
+      div.usersContainer
+        if users.length > 0
           div.userContainer
             div.user
               div.username Username
-              div.name Name
+              div.name First Name
+              div.name Last Name
               div.email Email
               div.age Age
               span.edit
+          each user in users
             div.user
               div.username #{user.username}
-              div.name #{user.name}
+              div.name #{user.firstname}
+              div.name #{user.lastname}
               div.email #{user.email}
               div.age #{user.age}
               span.edit
-                a(href='/edituser/'+user.name)
+                a(href='/edituser/'+user.firstname)
                   i.far.fa-edit
-                a(href='/deleteuser/'+user.name)
+                a(href='/deleteuser/'+user.firstname)
                   i.fas.fa-trash
         else
           div Sorry, there weren't any users with the username of #{username}

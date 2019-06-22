@@ -9,20 +9,22 @@ html
           div.userContainer
             div.user
               div.username Username
-              div.name Name
+              div.name First Name
+              div.name Last Name
               div.email Email
               div.age Age
               span.edit
           each user in users
             div.user
               div.username #{user.username}
-              div.name #{user.name}
+              div.name #{user.firstname}
+              div.name #{user.lastname}
               div.email #{user.email}
               div.age #{user.age}
               span.edit
-                a(href='/edituser/'+user.name)
+                a(href='/edituser/'+user.firstname)
                   i.far.fa-edit
-                a(href='/deleteuser/'+user.name)
+                a(href='/deleteuser/'+user.firstname)
                   i.fas.fa-trash
         else
           div Sorry, there aren't any users registered.
