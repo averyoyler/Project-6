@@ -22,9 +22,9 @@ html
               div.email #{user.email}
               div.age #{user.age}
               span.edit
-                a(href='/edituser/'+user.firstname)
+                a(href='/edituser/'+user._id)
                   i.far.fa-edit
-                a(href='/deleteuser/'+user.firstname)
+                a(href='/deleteuser/'+user._id)
                   i.fas.fa-trash
         else
           div Sorry, there weren't any users with the username of #{username}

@@ -6,21 +6,22 @@ html
     include ../includes/nav.pug
     div.container
       h1 Edit
-      each val in users
-        if val.name === name
-          div.form
-            form(action="/edituser" method="POST")
-              div
-                label(for="username") Username:
-                input(type="text", name="username", id="username" required value=val.username)
-              div
-                label(for="name") Name:
-                input(type="text", name="name", id="name" required value=val.name)
-              div
-                label(for="email") Email:
-                input(type="text", name="email", id="email" required value=val.email)
-              div
-                label(for='age') Age:
-                input(type='number', name='age', id='age' value=val.age)
-              div.submitBtn
-                input(type="submit")
+      div.form
+        form(action="/edituser" method="POST")
+          div
+            label(for="username") Username:
+            input(type="text", name="username", id="username" required value=user.username)
+          div
+            label(for="name") First Name:
+            input(type="text", name="firstname", id="firstname" required value=user.firstname)
+          div
+            label(for="name") Last Name:
+            input(type="text", name="lastname", id="lastname" required value=user.lastname)
+          div
+            label(for="email") Email:
+            input(type="text", name="email", id="email" required value=user.email)
+          div
+            label(for='age') Age:
+            input(type='number', name='age', id='age' value=user.age)
+          div.submitBtn
+            input(type="submit")

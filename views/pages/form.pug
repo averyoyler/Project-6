@@ -15,10 +15,11 @@ html
           div
             +textInput('lastname', 'Last Name:')
           div
-            +textInput('email', 'Email:')
+            label(for='email') Email:
+            input(type='email', name='email', id='email' required)
           div
             label(for='age') Age:
-            input(type='number', name='age', id='age')
+            input(type='number', name='age', id='age' required)
           div.submitBtn
             input(type="submit")
     //- include includes/footer.pug

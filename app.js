@@ -7,6 +7,8 @@ const usersFile = require('./users.js');
 // const users = usersFile.users;
 const fs = require('fs');
 
+var ObjectId = require('mongodb').ObjectID;
+
 let app = express();
 
 mongoose.connect('mongodb://localhost/project6', {useNewUrlParser: true});
@@ -61,7 +63,6 @@ app.get('/form', (req, res) => {
 app.get('/users', (req, res) => {
   user.find({}, function(err, result) {
     if(err) throw err;
-    console.log('RESULT:' + result);
     res.render('pages/users', {
       users: result
     });
@@ -70,17 +71,14 @@ app.get('/users', (req, res) => {
 
 // GET EDIT USER
 
-app.get('/edituser/:user', (req, res) => {
-  current = req.params.user;
-  console.log(`You clicked on : ${req.params.user}`);
-  user.find({}, function(err, result) {
+app.get('/edituser/:id', (req, res) => {
+  current = req.params.id;
+  user.find({'_id': ObjectId(req.params.id)}, function(err, result) {
     if(err) throw err;
     res.render('pages/edit', {
-      name: req.params.user,
-      users: result,
+      user: result[0],
     });
   });
-  
   // user.updateOne({'name': 'Aves'}, {$set: {'name': 'aveeeeees'}})
 });
 
@@ -95,7 +93,6 @@ app.post('/create', (req, res) => {
   newUser.lastname = req.body.lastname;
   newUser.email = req.body.email;
   newUser.age = req.body.age;
-  console.log(newUser);
   newUser.save((err, data) => {
     if (err) {
         return console.error(err);
@@ -108,11 +105,11 @@ app.post('/create', (req, res) => {
 
 // EDIT A USER
 
-app.post('/edituser', (req, res) => {
-  let value = {'name': current};
-  let editedUser = {$set: {'username': req.body.username, 'name': req.body.name, 'email': req.body.email, 'age': req.body.age}};
+app.post('/edituser', (req, res) => { // TODO
+  let value = {'_id': current};
+  let editedUser = {$set: {'username': req.body.username, 'firstname': req.body.firstname, 'lastname': req.body.lastname, 'email': req.body.email, 'age': req.body.age}};
   
-  user.find({'name': req.body.name}, function(err, result) {
+  user.find({'_id': ObjectId(current)}, function(err, result) {
     if(err) throw err;
     user.updateOne(value, editedUser, function(err, result) {
       if(err) throw err;
@@ -124,25 +121,13 @@ app.post('/edituser', (req, res) => {
 
 // DELETE A USER
 
-app.get('/deleteuser/:user', (req, res) => {
-  user.deleteOne({'name': req.params.user}, function(err, result) {
+app.get('/deleteuser/:id', (req, res) => {
+  user.deleteOne({'_id': req.params.id}, function(err, result) {
     if(err) throw err;
-    console.log(`Deleted User: ${req.params.user}`);
+    console.log(`Deleted User: ${req.params.id}`);
     res.redirect('/users');
   });
 });
-
-// FIND A USER
-// app.post('/find', (req, res) => {
-//   user.findOne({'username': req.body.find}, function(err, result) {
-//     if(err) throw err;
-//     console.log(req.body.find);
-//     res.render('pages/foundUser', {
-//       user: result,
-//       username: req.body.find
-//     })
-//   });
-// });
 
 // SEARCH PAGE
 app.get('/search', (req, res) => {
@@ -153,20 +138,29 @@ app.get('/search', (req, res) => {
 app.post('/search', (req, res) => {
   let first = req.body.firstname;
   let last = req.body.lastname;
-  if((first !== undefined) && (last !== undefined)) {
+  if((first !== '') && (last !== '')) {
     user.find({'firstname': first, 'lastname': last}, function(err, result) {
       if(err) throw err;
-      console.log(`\n\n ${result} \n\n`);
       res.render('pages/foundUser', {
         users: result
       });
     });
   }
-  else if(first !== undefined) {
-    user.find({'firstname': first});
+  else if(first !== '') {
+    user.find({'firstname': first}, function(err, result) {
+      if(err) throw err;
+      res.render('pages/foundUser', {
+        users: result
+      });
+    });
   } 
-  else if(last !== undefined) {
-    user.find({'lastname': last})
+  else if(last !== '') {
+    user.find({'lastname': last}, function(err, result) {
+      if(err) throw err;
+      res.render('pages/foundUser', {
+        users: result
+      });
+    });
   }
 });
 

@@ -9,8 +9,10 @@ html
       div.form(style="height: 150px;")
         form(action="/search" method="POST")
           div
-            +textInput('firstname', 'First Name:')
+            label(for='firstname') First Name:
+            input(type="text", name='firstname')
           div
-            +textInput('lastname', 'Last Name:')
+            label(for='lastname') Last Name:
+            input(type="text", name='lastname')
           div.submitBtn
             input(type="submit")
