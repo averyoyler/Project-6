@@ -8,11 +8,18 @@ html
         if users.length > 0
           div.userContainer
             div.user
-              div.username Username
-              div.name First Name
-              div.name Last Name
-              div.email Email
-              div.age Age
+              div.username
+                span Username
+              div.name
+                span First Name
+              div.name.sortHeader
+                span Last Name
+                a.sort(href='/sort')
+                  i.fas.fa-arrow-up
+              div.email
+                span Email
+              div.age
+                span Age
               span.edit
           each user in users
             div.user

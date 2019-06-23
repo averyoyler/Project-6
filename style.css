@@ -101,7 +101,7 @@ h1 {
   border-right: 1px solid grey;
 }
 
-.user span {
+.user > span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +116,13 @@ h1 {
   width: 190px;
 }
 
+.sortHeader {
+  display: flex;
+  justify-content: center;
+}
+
 .name {
+  position: relative;
   width: 190px;
 }
 
@@ -173,4 +179,15 @@ a i {
 
 .search::placeholder {
   color: lightgrey;
+}
+
+.fa-arrow-up {
+  position: absolute;
+  right: 5px;
+  font-size: 80%;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
 }
